@@ -1,0 +1,38 @@
+{
+  "message": "Hello",
+  "lang": "mm",
+  "icon": "/langicon/english.png",
+  "login": {
+    "username": "User Name",
+    "password": "Password"
+  },
+  "homeapplicantpage": {
+    "homeApp": "Home Applicants"
+  },
+  "aboutUs": {
+    "header": "Welcome to PowerPac Myanmar",
+    "subHeader": "Brightens Up Your Life",
+    "about": "Distributor of PowerPac Singapore Brand Since 8 July 2019 owned and operated by UNION POWERPAC GROUP LTD (Registration No. 121189836).",
+    "mission": "Our mission is to be safe and innovation of every future life.",
+    "story": "PowerPac products are proud to be consistently voted as Singapore's trusted brand after 21 years of serving households locally and overseas. "
+  },
+  "contactUs": {
+    "header": "Contact Us"
+  },
+  "faq": {
+    "header": "Frequently Asked Question"
+  },
+  "info": {
+    "header": "Information",
+    "warranty_period": "2 Years Service Warranty!",
+    "WSI": "The warranty does not cover repair or replacement of parts damaged by misused, accidents, negligence, alteration, modification or in any way being tempered with or repair by any repair organisation without the prior consent of UNION POWERPAC GROUP LTD.\n \n The original purchaser of gift recipient must produce this warranty together with invoice / cash bill when sending in your item for repair / service.The warranty is valid in MYANMAR.",
+    "refund": "If you receive a defective or damaged Product, you must notify UNION POWERPAC GROUP LTD within 7 days after the day following the delivery of the Product, after which UNION POWERPAC GROUP LTD shall have no liability to you.UNION POWERPAC GROUP LTD obligation to you in respect of such notification will be at its option to: (i) replace any Product that is defective or damaged; or (ii) refund to you the amount paid by you for the relevant Product to the original method of payment. Service No.(ii) will valid only direct purchaser from us.",
+    "deli": "Delivery in Yangon within 3 Working Days after your order confirm. Delivery charges will be free if your order is above 50,000ks and it does not include installations or any other services other than the product itself.",
+    "term": " Business Working Day means any day excluding Saturdays, Sundays and public holidays in Myanmar. \n Order means any order for Products placed by you through the site. \n iFan MyChoice products distribute under UNION POWERPAC GROUP LTD. \n Products means the products which are available for purchase from the Site and a Product is any one of them.",
+    "deli_free": "DELIVERY FREE",
+    "deli_region": "in yangon"
+  },
+  "promotion": {
+    "header": "thadingyut promotions"
+  }
+}
