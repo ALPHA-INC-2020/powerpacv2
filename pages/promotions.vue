@@ -4,7 +4,6 @@
       class="image_view_box"
       :style="viewImageURL != ''? 'display : flex': 'display: none'"
     >
-
       <img
         :src="viewImageURL"
         alt=""
@@ -16,11 +15,14 @@
     </div>
     <breadCumb :items="breadCumbItems" />
     <br>
-    <div class="titleContainer">
+    <div
+      class="titleContainer"
+      :style="{ 'background-image': 'url(' + banner_background + ')' }"
+    >
       <span
         class="maintitle"
         data-aos="fade-in"
-      > {{ $t('promotion.header') }}</span>
+      > {{ banner_title }}</span>
     </div>
     <span class="br" />
     <b-container>
@@ -285,6 +287,7 @@
 import breadCumb from '@/components/mainpageBody/breadCumnb'
 import cancel from '@/assets/svg/cancel.svg'
 import rightArrow from '@/assets/svg/right-arrow.svg'
+import Promotion from '@/helpers/apis/Promotions'
 
 
 export default {
@@ -297,6 +300,8 @@ export default {
     return {
       viewImageURL: '',
       visible: false,
+      banner_background: '',
+      banner_title: 'POWEPAC MYANMAR',
       breadCumbItems: [{
         text: 'home',
         link: '/'
@@ -307,6 +312,15 @@ export default {
         active: true
       }]
     }
+  },
+  mounted () {
+    Promotion.getBanner().then(res => {
+      if (res.status === 200) {
+        this.banner_title = res.data.banner_title;
+        this.banner_background = res.data.image
+
+      }
+    })
   },
   methods: {
     viewImage (url) {
@@ -340,7 +354,7 @@ export default {
   border: 2px solid #4685cc;
   color: #333;
   font-size: 18px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   font-weight: 400;
   text-align: center;
   text-decoration: none;
@@ -353,7 +367,7 @@ export default {
   bottom: 0;
   left: 0;
   z-index: -1;
-  content: "";
+  content: '';
   background: #4685cc;
   transition: transform 0.3s;
 }
@@ -402,7 +416,7 @@ export default {
 }
 h1,
 h3 {
-  font-family: "Poppins";
+  font-family: 'Poppins';
   font-weight: bolder;
 }
 .text_container {
@@ -414,8 +428,10 @@ h3 {
 }
 .titleContainer {
   height: 500px;
-  background-image: url("/promotions/tadingyut/background.jpg");
   text-align: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-color: #4685cc;
 }
 .image_container {
   height: auto;
@@ -438,18 +454,18 @@ h3 {
 .maintitle {
   color: #fff;
   font-size: 45px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   line-height: 500px;
   text-transform: uppercase;
   font-weight: bolder;
 }
 p {
-  font-family: "Poppins";
+  font-family: 'Poppins';
 }
 .subtitle {
   color: #fff;
   font-size: 20px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
 }
 
 .divider {
