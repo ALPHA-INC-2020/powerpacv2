@@ -47,7 +47,7 @@
             >
               <div
                 class="image_box"
-                v-for="(imageSrc, index) in item.images"
+                v-for="(imageSrc, index) in item.imageURLs"
                 :key="index"
               >
                 <img
