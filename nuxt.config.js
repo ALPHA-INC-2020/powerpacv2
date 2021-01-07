@@ -43,6 +43,7 @@ export default {
       collapseWhitespace: false
     }
   },
+  babel: { compact: true },
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['~/css/reset.css', 'aos/dist/aos.css', 'ant-design-vue/dist/antd.css'],
 
