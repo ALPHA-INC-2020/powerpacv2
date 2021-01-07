@@ -62,9 +62,6 @@
         </div>
       </div>
     </div>
-
-    {{isLoadingData}}
-
   </nuxt-link>
 </template>
 
@@ -156,7 +153,7 @@ export default {
   text-align: center;
   right: 0;
   bottom: 0;
-  font-family: "Poppins";
+  font-family: 'Poppins';
 }
 .out_off_stock {
   position: absolute;
@@ -168,7 +165,7 @@ export default {
   text-align: center;
   right: 10px;
   bottom: 0;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   text-transform: uppercase;
 }
 .pre_order {
@@ -181,7 +178,7 @@ export default {
   text-align: center;
   right: 10px;
   bottom: 0;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   text-transform: uppercase;
 }
 .product_image {

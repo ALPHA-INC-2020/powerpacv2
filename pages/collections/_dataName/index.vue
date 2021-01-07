@@ -182,16 +182,15 @@ export default {
   },
 
   created () {
-    $nuxt.$emit('loading-data-event', true)
+    // console.log('created')
+    // $nuxt.$emit('loading-data-event', true)
     this.$store.dispatch('dataStore/setRouteName', this.$route.params.dataName)
     this.$store.dispatch("productStore/setProducts").then(() => {
       this.products = this.$store.getters["productStore/getProducts"](
         this.$route.params.dataName
       );
+      console.log(this.products)
       this.getFilterItemfromMainData(this.products);
-    }).then(() => {
-      $nuxt.$emit('loading-data-event', false)
-
     })
     this.$store.dispatch("productStore/setPopularProducts");
 

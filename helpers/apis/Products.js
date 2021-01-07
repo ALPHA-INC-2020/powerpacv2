@@ -2,7 +2,7 @@ import Api, { wait } from './Api'
 
 export default {
   async getAllProducts() {
-    await wait(10000)
+    // await wait(10000)
     return await Api().get('/get/product')
   },
   getAllPopularProducts() {

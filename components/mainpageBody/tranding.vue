@@ -43,13 +43,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({popularProducts: 'productStore/getPopularProducts'}),
+    ...mapGetters({ popularProducts: 'productStore/getPopularProducts' }),
     checkWindowWidth () {
       return this.window.width < 990
     }
   },
   created () {
-    if (process.browser) {
+    if (process.client) {
       window.addEventListener('resize', this.handleResize)
       this.handleResize()
     }

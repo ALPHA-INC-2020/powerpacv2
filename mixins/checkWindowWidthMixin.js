@@ -15,9 +15,11 @@ export default {
   },
   created() {
     console.log('here')
+    if (process.client) {
+      window.addEventListener('resize', this.handleResize)
+      this.handleResize()
+    }
     // eslint-disable-next-line nuxt/no-globals-in-created
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
   },
   destroyed() {
     window.removeEventListener('resize', this.handleResize)

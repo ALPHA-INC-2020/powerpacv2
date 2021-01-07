@@ -50,7 +50,7 @@ export default {
     }
   },
   created () {
-    if (process.browser) {
+    if (process.client) {
       // eslint-disable-next-line nuxt/no-globals-in-created
       window.addEventListener('resize', this.handleResize)
       this.handleResize()

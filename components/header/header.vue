@@ -102,21 +102,26 @@ export default {
     }
   },
   created () {
-    if (process.browser) {
-      // eslint-disable-next-line nuxt/no-globals-in-created
+    if (process.client) {
       window.addEventListener('scroll', this.handleScroll)
     }
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll)
+    if (process.client) {
+      window.removeEventListener('scroll', this.handleScroll)
+
+    }
   },
   methods: {
     handleScroll () {
-      if (window.scrollY > window.innerHeight - 200 && window.innerWidth >= 800) {
-        this.navfix = true
-      } else {
-        this.navfix = false
+      if (process.client) {
+        if (window.scrollY > window.innerHeight - 200 && window.innerWidth >= 800) {
+          this.navfix = true
+        } else {
+          this.navfix = false
+        }
       }
+
     }
   }
 }

@@ -37,7 +37,7 @@ export default {
   created () {
     this.$store.dispatch("productStore/setNewReleasedProducts");
     this.$store.dispatch("productStore/setPopularProducts");
-    this.$store.dispatch("productStore/setNewReleasedProducts");
+    this.$store.dispatch("productStore/setProducts");
   },
   head: {
     title: 'Home',

@@ -3,45 +3,45 @@ export default {
   loadingIndicator: {
     name: 'circle',
     color: '#3B8070',
-    background: 'white',
+    background: 'white'
   },
-  mode: 'spa',
+  mode: 'universal',
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s PowerPac Myanmar',
     meta: [
       {
-        charset: 'utf-8',
+        charset: 'utf-8'
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=device-width, initial-scale=1'
       },
       {
         hid: 'description',
         name: 'description',
-        content: '',
-      },
+        content: ''
+      }
     ],
     link: [
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico',
-      },
+        href: '/favicon.ico'
+      }
     ],
     script: [
       {
         src: 'https://unpkg.com/ionicons/dist/ionicons.js',
-        body: true,
-      },
-    ],
+        body: true
+      }
+    ]
   },
   generate: {
     fallback: true,
     minify: {
-      collapseWhitespace: false,
-    },
+      collapseWhitespace: false
+    }
   },
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['~/css/reset.css', 'aos/dist/aos.css', 'ant-design-vue/dist/antd.css'],
@@ -50,36 +50,40 @@ export default {
   plugins: [
     {
       src: '~/plugins/vue-carousel',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/aos.js',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/antd.js',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/vue2-filters.js',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/social-share.js',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/vue-fb-customer-chat.js',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/vue-noti.js',
-      ssr: false,
+      mode: 'client'
     },
     {
       src: '@/plugins/BootstrapVueSkeleton',
-      ssr: false,
+      mode: 'client'
     },
+    {
+      src: '@/plugins/vue-tel-input.js',
+      mode: 'client'
+    }
   ],
 
   // Auto import compone  nts (https://go.nuxtjs.dev/config-components)
@@ -103,26 +107,26 @@ export default {
     optimizeImagesInDev: false,
     defaultImageLoader: 'img-loader',
     mozjpeg: {
-      quality: 80,
+      quality: 80
     },
     optipng: {
-      optimizationLevel: 3,
+      optimizationLevel: 3
     },
     pngquant: false,
     gifsicle: {
       interlaced: true,
-      optimizationLevel: 3,
+      optimizationLevel: 3
     },
     svgo: {
       // enable/disable svgo plugins here
     },
     webp: {
       preset: 'default',
-      quality: 75,
-    },
+      quality: 75
+    }
   },
   googleAnalytics: {
-    id: 'G-NT4MXGYHX6',
+    id: 'G-NT4MXGYHX6'
   },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -139,16 +143,16 @@ export default {
         locales: [
           {
             code: 'en',
-            name: 'English',
+            name: 'English'
           },
           {
             code: 'mm',
-            name: 'Myanmar',
-          },
+            name: 'Myanmar'
+          }
         ],
-        vueI18n: i18n,
-      },
-    ],
+        vueI18n: i18n
+      }
+    ]
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -160,9 +164,9 @@ export default {
     loaders: {
       less: {
         lessOptions: {
-          javascriptEnabled: true,
-        },
-      },
-    },
-  },
+          javascriptEnabled: true
+        }
+      }
+    }
+  }
 }

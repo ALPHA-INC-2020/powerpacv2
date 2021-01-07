@@ -1,12 +1,20 @@
 <template>
   <div class="search-container mt-3">
-    <!-- <input type="text" class="search" v-model="search" />
-    <cancel class="cancel_svg" @click="search = ''" v-show="search != ''" />
+    <input
+      type="text"
+      class="search"
+      v-model="search"
+    />
+    <cancel
+      class="cancel_svg"
+      @click="search = ''"
+      v-show="search != ''"
+    />
     <div class="click_icon">
       <search />
     </div>
     <div class="search_result">
-      <div
+      <!-- <div
         v-show="search != ''"
         v-for="(item, index) in filteredList.length > 10
           ? filteredList.slice(0, 10)
@@ -24,19 +32,22 @@
           item.productName.toLowerCase()
         }}</span>
         <hr v-show="filteredList.length > 1" />
-      </div>
-      <div
+      </div> -->
+      <!-- <div
         v-if="search != '' && filteredList.length < 1"
         class="search_result_item"
       >
         no product found!
-      </div>
-      <div class="see_all" v-if="search != '' && filteredList.length > 10">
+      </div> -->
+      <!-- <div
+        class="see_all"
+        v-if="search != '' && filteredList.length > 10"
+      >
         <p class="see_all_text">
           see all results ( {{ filteredList.length }} )
         </p>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -44,7 +55,7 @@ import search from "@/assets/svg/search.svg";
 import cancel from "@/assets/svg/cancel.svg";
 
 export default {
-  data() {
+  data () {
     return {
       search: "",
       bindedArray: []
@@ -54,7 +65,9 @@ export default {
     search,
     cancel
   },
-  created() {
+  created () {
+
+    console.log(this.$store.getters)
     // this.bindedArray = [
     //   ...fan,
     //   ...iron,
@@ -201,7 +214,7 @@ hr {
   height: 50px;
   outline: none;
   padding: 10px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   position: relative;
 }
 .click_icon {

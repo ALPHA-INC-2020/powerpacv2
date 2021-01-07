@@ -315,7 +315,7 @@ export default {
     }
   },
   created () {
-    if (process.browser) {
+    if (process.client) {
       window.addEventListener('resize', this.handleResize)
       this.handleResize()
     }
@@ -391,7 +391,7 @@ export default {
   width: 20%;
   height: 55px;
   text-align: center;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   display: flex;
   justify-content: center;
   align-content: center;

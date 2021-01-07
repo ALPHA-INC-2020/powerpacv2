@@ -27,6 +27,7 @@
     "vue-fb-customer-chat": "^0.2.0",
     "vue-social-sharing": "^3.0.2",
     "vue-sweetalert2": "^4.1.1",
+    "vue-tel-input": "^4.4.2",
     "vue-template-compiler": "^2.6.12",
     "vue2-animate": "^2.1.4",
     "vue2-filters": "^0.11.0"

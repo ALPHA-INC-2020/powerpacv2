@@ -26,7 +26,10 @@
               <p class="h2">Your Order Has Been Placed!</p><br>
               <small class="text-muted">We will contact you back as soon as we find your order</small> <br>
               <nuxt-link :to=" localePath('/collections/fan')">
-              <b-button variant="light" class="mt-5">Continue Shopping</b-button>
+                <b-button
+                  variant="light"
+                  class="mt-5"
+                >Continue Shopping</b-button>
               </nuxt-link>
             </div>
 
@@ -36,7 +39,7 @@
       </b-container>
     </div>
     <b-container
-      class="text-center mt-5"
+      class="mt-5"
       v-if="!isOrdered"
     >
       <b-row class="mb-3">
@@ -51,32 +54,50 @@
           <div class="order_form_container">
             <input
               type="text"
-              class="order_input"
+              class="order_input my-2"
               placeholder="Name"
               v-model="form.customer_name"
             >
+            <small
+              class="error_text"
+              v-show="error.name"
+            >Name is required</small>
+
             <input
               type="email"
-              class="order_input"
+              class="order_input my-2"
               placeholder="Email (optional)"
               v-model="form.customer_email"
             >
-            <input
-              type="text"
-              class="order_input"
-              placeholder="Phone Number"
+
+            <vue-tel-input
               v-model="form.phone_no"
-            >
+              class="order_input_phone my-2"
+              placeholder="Phone"
+              required
+            ></vue-tel-input>
+            <small
+              class="error_text"
+              v-if="error.phone_no"
+            >Phone Number is required</small>
+
+            {{form.phone_no}}
             <textarea
-              class="order_input text_area_custom"
+              class="order_input text_area_custom my-2"
               placeholder="Full Address"
               v-model="form.customer_address"
             ></textarea>
+            <small
+              class="error_text"
+              v-show="error.customer_address"
+            >Address is required</small>
+
             <textarea
-              class="order_input text_area_custom"
+              class="order_input text_area_custom my-2"
               placeholder="Note (optional)"
               v-model="form.note"
             ></textarea>
+
           </div>
         </b-col>
         <b-col
@@ -143,7 +164,6 @@
                 >Cash On Deli</b-form-radio>
               </li>
             </ul>
-            {{form.purchase_type}}
           </div>
         </b-col>
         <b-col
@@ -206,6 +226,10 @@
           v-if="isButtonLoading"
         ></b-spinner>{{ isButtonLoading? 'Ordering' : 'ORDER NOW'}}
       </b-button>
+      <small
+        class="text-center error_text"
+        v-show="error.button_errortext"
+      >complete your information</small>
     </b-container>
   </div>
 </template>
@@ -223,7 +247,15 @@ export default {
     return {
       isOrdered: false,
       isButtonLoading: false,
+      error: {
+        name: false,
+        phone_no: false,
+        note: false,
+        customer_address: false,
+        button_errortext: false
+      },
       form: {
+        total_cost: '',
         customer_name: '',
         customer_email: '',
         phone_no: '',
@@ -285,13 +317,29 @@ export default {
   },
   methods: {
     orderProduct () {
-      this.isButtonLoading = true;
-      Product.orderProduct(this.singleItem[0].id, this.form).then((res) => {
-        if (res.status == 200) {
-          this.isButtonLoading = false;
-          this.isOrdered = true;
-        }
-      })
+
+      const { phone_no, customer_name, customer_address } = this.form;
+
+      if (phone_no == '' || customer_name == '' || customer_address == '') {
+
+        this.error.phone_no = phone_no == '' ? true : false;
+        this.error.name = customer_name == '' ? true : false;
+        this.error.customer_address = customer_address == '' ? true : false;
+        this.error.button_errortext = true;
+
+      } else {
+        this.isButtonLoading = true;
+        this.form.total_cost = parseInt(this.singleItem[0].promoPrice);
+
+        Product.orderProduct(this.singleItem[0].id, this.form).then((res) => {
+          if (res.status == 200) {
+            this.isButtonLoading = false;
+            this.isOrdered = true;
+          }
+        })
+      }
+
+
     }
   },
   computed: {
@@ -303,6 +351,9 @@ export default {
 </script>
 
 <style scoped>
+.margin-b {
+  margin-bottom: 20px;
+}
 .order_confirm_photo {
   width: 100%;
   height: 400px;
@@ -311,17 +362,21 @@ export default {
   height: 30px;
   width: 30px;
 }
+.error_text {
+  color: red;
+  text-align: left;
+  margin: 0px 10px;
+}
 h3,
 p,
 h6 {
-  font-family: "Poppins";
+  font-family: 'Poppins';
 }
 .order_form_container {
   height: auto;
   width: 100%;
 }
 .order_input {
-  margin: 10px 0px;
   width: 100%;
   height: 50px;
   border: none;
@@ -330,6 +385,12 @@ h6 {
   box-sizing: border-box;
   border-radius: 5px;
   padding: 20px;
+}
+.order_input_margin {
+  margin: 10px 0px;
+}
+.order_input_phone {
+  border: 1px solid #4685cc;
 }
 .text_area_custom {
   height: 90px;
@@ -345,7 +406,7 @@ h6 {
 }
 .purchase_title {
   font-size: 25px;
-  font-family: "Poppins";
+  font-family: 'Poppins';
 }
 .purchase_list {
   list-style-type: none;
