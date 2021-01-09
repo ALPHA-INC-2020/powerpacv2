@@ -8,11 +8,12 @@
         data-aos="fade-in"
       > {{ $t('faq.header')}} </span>
     </div>
-    <b-container class="mt-5 mb-5">
+    <b-container v-if="loading">loading</b-container>
+    <b-container class="mt-5 mb-5" v-else>
       <b-row>
         <b-col cols="12">
           <span
-            v-for="(faq,index) in faqs"
+            v-for="(faq,index) in allFaqs"
             :key="index"
           >
             <div
@@ -37,7 +38,6 @@
 </template>
 
 <script>
-/* eslint-disable camelcase */
 
 import breadCumb from '@/components/mainpageBody/breadCumnb'
 import { faqs_en } from '@/static/content/faq_en'
@@ -46,10 +46,19 @@ export default {
   components: {
     breadCumb
   },
+  created() {
+    this.loading = true;
+    this.$store.dispatch('faqStore/setAllFaqs').then(() => {
+      this.allFaqs = this.$store.getters['faqStore/getFaqs']
+      this.loading = false;
+    })
+  },
   data () {
     return {
       faqs_en,
       faqs_mm,
+      loading: false,
+      allFaqs: [],
       faqs: this.$i18n.locale === 'mm' ? faqs_mm : faqs_en,
       text: `
           Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
