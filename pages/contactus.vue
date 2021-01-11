@@ -128,40 +128,36 @@
               type="text"
               name="name"
               placeholder="name.."
-              v-model="user_name"
-              class="input"
+              v-model="form.name"
+              class="contact_input"
             >
             <input
               id="email"
               type="text"
               name="email"
               placeholder="email"
-              v-model="email"
-              class="input"
+              v-model="form.email"
+              class="contact_input"
             >
             <textarea
               id="subject"
               name="subject"
               placeholder="Content"
               style="height:200px"
-              v-model="content"
-              class="input"
+              v-model="form.content"
+              class="contact_input"
             />
             <input
               id="phone"
               type="text"
               name="phone"
-              v-model="phone"
-              class="input"
+              v-model="form.phone_number"
+              class="contact_input"
               placeholder="phone number (optional)"
             >
-            <a-button
-              type="primary"
-              @click="sendMail"
-              :disabled="!isValidate"
-              size="large"
-              :loading="loading"
-            >Send</a-button>
+            <Button :loading="loading" @clicked="sendMail()" buttonText="Send" loadingText="Sending Message"/>
+            <SuccessAlert success_text="Thanks for contacting us! We will reply you back soon." v-if="isSuccess"/>
+            <ErrorAlert error_text="Error on sending message! We are fixing it. Sorry for inconvenience" v-if="hasError"/>
           </div>
 
         </b-col>
@@ -192,49 +188,33 @@
 </template>
 
 <script>
-/* SmtpJS.com - v3.0.0 */
-var Email = {
-  send: function (a) {
-    return new Promise(function (n, e) {
-      a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send";
-      var t = JSON.stringify(a);
-      Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) {
-        n(e)
-      })
-    })
-  },
-  ajaxPost: function (e, n, t) {
-    var a = Email.createCORSRequest("POST", e);
-    a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), a.onload = function () {
-      var e = a.responseText;
-      null != t && t(e)
-    }, a.send(n)
-  },
-  ajax: function (e, n) {
-    var t = Email.createCORSRequest("GET", e);
-    t.onload = function () {
-      var e = t.responseText;
-      null != n && n(e)
-    }, t.send()
-  },
-  createCORSRequest: function (e, n) {
-    var t = new XMLHttpRequest;
-    return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t
-  }
-};
+
+
 import breadCumb from '@/components/mainpageBody/breadCumnb'
+import Button from '@/components/general/button'
+import Contact from '@/helpers/apis/Contact'
+import SuccessAlert from '@/components/general/successAlert.vue'
+import ErrorAlert from '@/components/general/errorAlert.vue'
+
 export default {
 
   components: {
-    breadCumb
+    breadCumb,
+    Button,
+    SuccessAlert,
+    ErrorAlert
   },
   data () {
     return {
+      isSuccess: false,
+      hasError: false,
       loading: false,
-      user_name: '',
-      email: '',
-      phone: '',
-      content: '',
+      form: {
+              name: '',
+              email: '',
+              phone_number: '',
+              content: '',
+      },
       breadCumbItems: [{
         text: 'home',
         link: '/'
@@ -257,37 +237,52 @@ export default {
     ]
   },
   methods: {
-    sendMail () {
-      this.loading = true;
-      Email.send({
-        Host: "smtp.gmail.com",
-        Username: "powerpacmm@gmail.com",
-        Password: "-*/12345678",
-        To: "powerpacmm@gmail.com",
-        From: this.email,
-        Subject: `Hello from ${this.user_name}`,
-        Body: `${this.content} \n phone - ${this.phone}`,
-      }).then((response) => this.loading = false).then(() => {
-        this.$swal('Thanks for contacting us')
-        this.clearForm()
-      })
+    setLoading(value) {
+      this.loading = value;
+    },
+    setHasError(value) {
+      this.hasError = value;
+    },
+    setSuccess(value) {
+      this.isSuccess = value
+    },
+    async sendMail () {
+      const { name, email, phone_number, content } = this.form;
+
+      if(name == '' || email == '' || phone_number == '' || content == '' ){
+        return
+      }
+        this.setLoading(true);
+        var { data } = await Contact.sendMsg(this.form);
+        const { success } = await data;
+        success ? this.setSuccess(true) : this.hasError(true);
+        await this.clearForm();
+
+        await this.setLoading(false)
+     
     },
     clearForm () {
-      this.user_name = '';
-      this.email = '';
-      this.phone = '';
-      this.content = ''
+      this.form.name = ''
+      this.form.email = ''
+      this.form.content = ''
+      this.form.phone_number = ''
     }
   },
-  computed: {
-    isValidate () {
-      return this.user_name != '' && this.email != '' && this.phone != '' && this.content != ''
-    }
-  }
 }
 </script>
 
 <style scoped>
+.contact_input {
+   width: 100%;
+  height: 40px;
+  border: none;
+  outline: none;
+  border: 1px solid #4685cc;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px 0px;
+}
 .send_button_disable {
   opacity: 0.8;
 }

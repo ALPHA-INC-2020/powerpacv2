@@ -214,18 +214,7 @@
         <span v-else>We will take fee when delivery send your product</span>
       </b-alert>
 
-      <b-button
-        block
-        variant="warning"
-        @click="orderProduct()"
-        :disabled="isButtonLoading"
-      >
-        <b-spinner
-          small
-          type="grow"
-          v-if="isButtonLoading"
-        ></b-spinner>{{ isButtonLoading? 'Ordering' : 'ORDER NOW'}}
-      </b-button>
+      <Button @clicked="orderProduct()" buttonText="Order Now" :loading="isButtonLoading"/>
       <small
         class="text-center error_text"
         v-show="error.button_errortext"
@@ -238,10 +227,12 @@
 import breadCumb from '@/components/mainpageBody/breadCumnb'
 import productCard from '@/components/productCard'
 import Product from '@/helpers/apis/Products'
+import Button from '@/components/general/button'
 export default {
   components: {
     breadCumb,
-    productCard
+    productCard,
+    Button
   },
   data () {
     return {

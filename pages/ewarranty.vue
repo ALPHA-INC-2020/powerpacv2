@@ -1,30 +1,52 @@
 <template>
   <div>
     <breadCumb :items="breadCumbItems" />
-    <div class="e_container">
+    <div v-if="isComplete">
+      <b-container>
+        <b-row>
+          <b-col
+            cols="12"
+            lg="6"
+            md="6"
+            sm="12"
+          >
+            <img
+              src="/order.png"
+              alt=""
+              class="order_confirm_photo"
+            >
+          </b-col>
+          <b-col
+            cols="12"
+            lg="6"
+            md="6"
+            sm="12"
+          >
+            <div class="pt-5">
+              <p class="h2">EWarranty Registration Complete!</p><br>
+              <small class="text-muted">We will contact you back as soon as we find your registration</small> <br>
+              <nuxt-link :to=" localePath('/')">
+                <b-button
+                  variant="light"
+                  class="mt-5"
+                >Back to home</b-button>
+              </nuxt-link>
+            </div>
+
+          </b-col>
+        </b-row>
+
+      </b-container>
+    </div>
+    <div class="e_container" v-else>
       <b-container class="p-0">
         <b-row
           no-gutters
           align-v="center"
         >
+        
           <b-col
-            xs="12"
-            sm="12"
-            md="6"
-            lg="6"
-          >
-            <img
-              src="/register.png"
-              alt=""
-              class="image"
-              data-aos="fade-right"
-            >
-          </b-col>
-          <b-col
-            xs="12"
-            sm="12"
-            md="6"
-            lg="6"
+              col="12"
           >
             <div
               class="mx-3 mt-3"
@@ -62,8 +84,10 @@
            
       <input id="file-upload" name='upload_cont_img' type="file" style="display:none;" @change="onFileChange">
               </form>
-              <button class="register" @click="registerWarranty()" :disabled="loading" :class="loading ? 'disable' : null">{{loading ? 'Loading' : 'Register'}}</button>
-   
+
+              <Button buttonText="Register" :loading="loading" @clicked="registerWarranty()"/>
+
+              <ErrorAlert error_text="Error on registering warranty! We are fixing, sorry for inconvenience" v-if="hasError"/>
             </div>
           </b-col>
         </b-row>
@@ -77,6 +101,8 @@ import breadCumb from '@/components/mainpageBody/breadCumnb'
 import rightArrow from '@/assets/svg/right-arrow.svg'
 import cloudinaryMixin from '@/mixins/cloudinaryMixin'
 import Warranty from '@/helpers/apis/Warranty'
+import ErrorAlert from '@/components/general/errorAlert'
+import Button from '@/components/general/button'
 export default {
 
   mixins: [
@@ -84,10 +110,13 @@ export default {
   ],
   components: {
     breadCumb,
-    rightArrow
+    rightArrow,
+    ErrorAlert, Button
   },
   data () {
     return {
+      hasError : false,
+      isComplete: false,
       loading: false,
       url: '',
       breadCumbItems: [{
@@ -113,9 +142,16 @@ export default {
       }
     }
   },
+
   methods: {
     setloading(value) {
       this.loading = value;
+    },
+    setComplete(value) {
+      this.isComplete = value;
+    },
+    setError(value) {
+      this.hasError = value;
     },
     registerWarranty() {
       const { name, birthday, phone_number, township, address, start_buying_date, purchase_from, product_model_no, product_serial_no, warranty_card_img} = this.form;
@@ -123,22 +159,28 @@ export default {
       if(name == '' || birthday == '' || phone_number == '' || township == '' || address == '' || start_buying_date == '' || purchase_from == '' || product_model_no == '' || product_serial_no == '' || warranty_card_img == '') {
         return;
       }
-
       this.setloading(true);
       this.uploadFileToCloudinary(warranty_card_img, 'ewarranty').then(res => {
           this.form.warranty_card_img = res
           Warranty.registerWarranty(this.form).then(({status}) => {
-            if(status === 200) this.setloading(false);
-          }).catch(err => this.setloading(false))
+            if(status === 200) {
+              this.setloading(false);
+              this.setComplete(true);
+            }
+          }).catch(err => {
+            this.setloading(false)
+            this.setError(true)
+          })
        
       }).catch(err => {
         this.setloading(false);
+        this.setError(true);
         console.log('error on uploading warranty image' + err)
       })
-      console.log('valid');
+
     
     },
-onFileChange(e) {
+    onFileChange(e) {
       const file = e.target.files[0];
       this.form.warranty_card_img = file;
       this.url = URL.createObjectURL(file);
@@ -147,11 +189,11 @@ onFileChange(e) {
 }
 </script>
 <style scoped>
-.disable {
-  opacity: 0.4;
- cursor: not-allowed;
-        pointer-events: none;
+.order_confirm_photo {
+  width: 100%;
+  height: 400px;
 }
+
 .upload-text{
   height: 250px;
   line-height: 250px;
@@ -166,32 +208,14 @@ onFileChange(e) {
   background: rgb(179, 175, 175);
 }
 .preview_container {
-  height: 250px;
   width: 100%;
 }
 .preview_img {
   width: 100%;
-  height: 100%;
+  height: 250px;
   cursor: pointer;
 }
-.register {
-  margin-top: 43px;
-  width: 100%;
-  height: 50px;
-  background: #4685cc;
-  color: white;
-  border-radius: 3px;
-  line-height: 50px;
-  text-align: center;
-  transition: 0.2s ease-in-out;
-  cursor: pointer;
-  outline: none;
-  border: none;
-}
-.register:hover {
-  background: #2679d8;
 
-}
 .warranty_input {
   width: 100%;
   height: 40px;
